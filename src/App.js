@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { useEffect } from "react";
 
 import './App.css'
@@ -19,12 +19,14 @@ const movie1 = {
   }
 
 const App = () => {
+
+    const [movies, setMovies ] = useState([]);
    
     const searchMovies = async (title) =>{
         const response = await fetch(`${API_URL}&s=${title}`);
         const data = await response.json();
 
-        console.log(data.Search);
+        setMovies(data.Search);
     }
    
     useEffect(()=>{
@@ -48,7 +50,20 @@ const App = () => {
 
             </img>
         </div>
-        <MovieCard movie1 = {movie1} />
+        
+        {
+            movies?.length > 0
+             ? (
+                    <div className="container">
+                        <MovieCard />
+                    </div>
+             ):(
+                    <div className="empty">
+                        <h2>No movie</h2>
+                    </div>
+             )
+        }
+
     </div>
     );
 }
